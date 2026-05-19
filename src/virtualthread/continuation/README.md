@@ -181,6 +181,11 @@ resume() return và isDone() = true
   -> scheduler log done
   -> không requeue
 
+resume() return, không throw YieldException, và isDone() = false
+  -> scheduler coi như task chưa xong nhưng cũng không yield rõ ràng
+  -> scheduler log returned without yield
+  -> scheduler requeue continuation
+
 resume() throw exception thật
   -> scheduler log failed
   -> không requeue
@@ -196,6 +201,7 @@ Khi chạy `Main`, ta submit 3 continuation:
 scheduler.submit(new MyTask(1));
 scheduler.submit(new MyTask(2));
 scheduler.submit(new MyTask(3));
+scheduler.submit(new ImplicitReturnTask(4));
 ```
 
 Output dạng:
@@ -216,6 +222,10 @@ worker-1 yield continuation-1 nextState=2
 worker-2 take continuation-1
 worker-2 run continuation-1 state=2 -> Step C
 worker-2 done continuation-1
+
+worker-0 take continuation-4
+worker-0 run continuation-4 state=0 -> partial work, return without yield
+worker-0 returned without yield continuation-4, requeue
 ```
 
 Những dòng quan trọng:
@@ -225,8 +235,21 @@ take      -> worker lấy continuation khỏi queue
 run       -> resume continuation tại state hiện tại
 yield     -> continuation pause, scheduler requeue
 nextState -> state mà lần resume sau sẽ chạy
+returned without yield -> resume() đã return nhưng task chưa done, scheduler vẫn requeue
 done      -> continuation hoàn tất, scheduler không requeue nữa
 ```
+
+`ImplicitReturnTask` là case cố tình thêm để thấy nhánh này. Nó không gọi `yieldC(...)`, nhưng `resume()` vẫn return. Vì `done = false`, scheduler hiểu rằng continuation chưa xong và đưa lại vào queue.
+
+Điểm tinh tế:
+
+```text
+Không throw YieldException không có nghĩa là worker bị giữ mãi.
+Nếu resume() return, quyền điều phối đã quay lại scheduler.
+Chỉ là task không yield một cách explicit.
+```
+
+Nếu task thật sự không nhường và cũng không return, ví dụ chạy `while (true)`, scheduler không thể requeue nó. Worker đó sẽ bị kẹt trong `resume()`.
 
 ## So Sánh Trực Diện Với Cooperative
 

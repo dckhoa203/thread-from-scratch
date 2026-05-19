@@ -9,6 +9,7 @@ public class Main {
         scheduler.submit(new MyTask(1));
         scheduler.submit(new MyTask(2));
         scheduler.submit(new MyTask(3));
+        scheduler.submit(new ImplicitReturnTask(4));
 
         Thread.sleep(1000);
 
