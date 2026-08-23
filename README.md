@@ -6,23 +6,23 @@ Nên đọc theo đúng thứ tự dưới đây. Mỗi package là một bướ
 
 ## Lộ Trình Đọc
 
-1. [thread.overall](src/thread/overall/README.md)
+1. [thread.overall](thread-overal/src/thread/overall/README.md)
 
    Tổng quan lịch sử vấn đề: OS thread đắt, thread pool có thể starvation, virtual thread sinh ra để xử lý nhiều blocking task hơn.
 
-2. [virtualthread.simple](src/virtualthread/simple/README.md)
+2. [virtualthread.simple](virtual-thread/src/virtualthread/simple/README.md)
 
    Mô hình đầu tiên: nhiều task, một queue chung, một số worker platform thread lấy task ra chạy.
 
-3. [virtualthread.cooperative](src/virtualthread/cooperative/README.md)
+3. [virtualthread.cooperative](virtual-thread/src/virtualthread/cooperative/README.md)
 
    Task biết chạy một đoạn, lưu state, yield/sleep, rồi được scheduler đưa lại queue để resume.
 
-4. [virtualthread.workstealing](src/virtualthread/workstealing/README.md)
+4. [virtualthread.workstealing](virtual-thread/src/virtualthread/workstealing.localqueue/README.md)
 
    Mỗi worker có deque riêng. Worker ưu tiên việc local; khi hết việc thì steal từ worker khác.
 
-5. [virtualthread.continuation](src/virtualthread/continuation/README.md)
+5. [virtualthread.continuation](virtual-thread/src/virtualthread/continuation/README.md)
 
    Nâng cấp concept từ cooperative: task không chỉ tự return/yield theo convention, mà yield trở thành tín hiệu scheduler nhìn thấy để requeue/resume.
 

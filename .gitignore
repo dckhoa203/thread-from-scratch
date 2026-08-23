@@ -23,6 +23,6 @@
 hs_err_pid*
 replay_pid*
 
-thread-from-scratch.iml
+*.iml
 .idea/
-.out/
+/out/

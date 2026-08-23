@@ -1,4 +1,4 @@
-package virtualthread.workstealing;
+package virtualthread.workstealing.localqueue;
 
 import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.locks.LockSupport;

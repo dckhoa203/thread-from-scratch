@@ -1,4 +1,4 @@
-package virtualthread.workstealing;
+package virtualthread.workstealing.localqueue;
 
 public class VirtualTask implements Runnable {
 
