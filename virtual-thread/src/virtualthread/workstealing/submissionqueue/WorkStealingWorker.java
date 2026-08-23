@@ -66,7 +66,12 @@ public final class WorkStealingWorker implements Runnable {
                 Runnable task = scheduler.nextTask(this);
 
                 if (task != null) {
-                    task.run();
+                    try {
+                        task.run();
+                    } catch (RuntimeException exception) {
+                        System.err.printf("Task failed on %s: %s%n",
+                                Thread.currentThread().getName(), exception);
+                    }
                 } else {
                     waitForWork();
                 }

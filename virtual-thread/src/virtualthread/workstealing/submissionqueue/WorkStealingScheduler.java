@@ -8,6 +8,8 @@ public class WorkStealingScheduler {
 
     private final WorkStealingWorker[] workers;
 
+    private boolean shutdown;
+
     public WorkStealingScheduler(int parallelism) {
         if (parallelism <= 0) {
             throw new IllegalArgumentException("parallelism must be greater than 0");
@@ -32,7 +34,11 @@ public class WorkStealingScheduler {
      * ==================================================
      */
 
-    public void submit(Runnable task) {
+    public synchronized void submit(Runnable task) {
+
+        if (shutdown) {
+            throw new IllegalStateException("scheduler is shut down");
+        }
 
         WorkStealingWorker currentWorker = workerContext.current();
 
@@ -124,15 +130,21 @@ public class WorkStealingScheduler {
             if (task != null) {
                 System.out.printf("[TEAL] worker-%d steals %s from worker-%d%n",
                         thief.getId(), taskName(task), victim.getId());
-            }
 
-            return task;
+                return task;
+            }
         }
 
         return null;
     }
 
-    public void shutdown() {
+    public synchronized void shutdown() {
+        if (shutdown) {
+            return;
+        }
+
+        shutdown = true;
+
         for (WorkStealingWorker worker : workers) {
             worker.shutdown();
         }
