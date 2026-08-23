@@ -128,7 +128,7 @@ public class WorkStealingScheduler {
             Runnable task = victim.steal();
 
             if (task != null) {
-                System.out.printf("[TEAL] worker-%d steals %s from worker-%d%n",
+                System.out.printf("[STEAL] worker-%d steals %s from worker-%d%n",
                         thief.getId(), taskName(task), victim.getId());
 
                 return task;
@@ -153,6 +153,10 @@ public class WorkStealingScheduler {
     private String taskName(Runnable task) {
         if (task instanceof VirtualTask virtualTask) {
             return virtualTask.getName();
+        }
+
+        if (task.getClass().isSynthetic()) {
+            return "lambda-task";
         }
 
         String simpleName = task.getClass().getSimpleName();
