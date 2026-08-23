@@ -10,6 +10,8 @@ Continuation = một computation có thể được resume nhiều lần.
 
 Demo này vẫn là mô phỏng thủ công, không phải continuation thật của JVM. Nhưng nó làm rõ hơn khái niệm cốt lõi: một task không chỉ là `run()` một lần, mà là một chuỗi các lần `resume()`.
 
+![Continuation giữ computation tại điểm yield để resume sau](images/continuation-resume.png)
+
 ## Cooperative Là Gì?
 
 Trong `virtualthread.cooperative`, task tự quản lý state:

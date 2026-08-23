@@ -48,6 +48,24 @@ if (currentWorker != null) {
 
 `SubmissionQueue` là hàng đợi chung, thread-safe, dùng cho việc mới đi vào scheduler. Local deque vẫn là nơi tối ưu cho work sinh ra trong lúc một worker đang chạy.
 
+## Vì Sao Không Đưa Mọi Task Vào Global Queue?
+
+Nếu child task vừa được một worker tạo ra luôn quay về global queue, worker đó mất cơ hội chạy work gần nhất của mình. Đưa child task vào local deque giữ đường đi ngắn và làm local execution theo LIFO:
+
+```text
+worker đang chạy parent
+  -> tạo child
+  -> child vào local deque
+  -> worker có thể tiếp tục child ngay ở vòng lặp sau
+```
+
+Khi worker bận hoặc idle worker khác cần việc, cơ chế steal vẫn có thể lấy task từ đầu deque. Vì vậy hai queue không cạnh tranh vai trò; chúng phục vụ hai nguồn work khác nhau:
+
+```text
+external source  -> SubmissionQueue -> scheduler có một cổng vào chung
+internal source  -> local deque      -> giữ locality, vẫn steal được khi cần
+```
+
 ## Worker Chọn Việc Theo Thứ Tự Nào?
 
 Mỗi worker lặp theo thứ tự:
@@ -108,11 +126,11 @@ Các marker cần quan sát:
 ```text
 [SUBMISSION] example-task -> global queue
 [LOCAL] <child-task> -> worker-N
-[TEAL] worker-M steals <child-task> from worker-N
+[STEAL] worker-M steals lambda-task from worker-N
 example-task - STEP 2 runs on carrier-M
 ```
 
-`[LOCAL]` chứng minh internal submission; `[SUBMISSION]` đầu tiên và lần sau timer wake chứng minh external submission; `[TEAL]` cho thấy cơ chế ở step trước vẫn hoạt động trên local deque.
+`[LOCAL]` chứng minh internal submission; `[SUBMISSION]` đầu tiên và lần sau timer wake chứng minh external submission; `[STEAL]` cho thấy cơ chế ở step trước vẫn hoạt động trên local deque.
 
 ## Những Thứ Cố Ý Chưa Làm
 

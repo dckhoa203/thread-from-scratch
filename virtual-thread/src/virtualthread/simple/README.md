@@ -10,6 +10,8 @@ nhiều task nhẹ
 worker rảnh thì lấy task tiếp theo
 ```
 
+![Nhiều task dùng chung một queue và ít worker](images/shared-queue.png)
+
 ## Thành Phần
 
 `Task`:

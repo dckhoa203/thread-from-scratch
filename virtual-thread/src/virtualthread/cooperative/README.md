@@ -14,6 +14,8 @@ resume step 2
 
 Đây là mô phỏng thủ công cho cooperative scheduling.
 
+![Một task chạy từng đoạn, lưu state và resume sau](images/state-machine-resume.png)
+
 ## Vấn Đề Của Bản simple
 
 Ở `virtualthread.simple`, worker gọi:

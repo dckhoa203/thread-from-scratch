@@ -4,6 +4,8 @@ Package này là phần mở đầu: nhìn lại hành trình từ `Thread` truy
 
 Mục tiêu không phải là viết scheduler, mà là thấy rõ vì sao Java cần virtual thread.
 
+![Nhiều blocking request nhanh chóng làm OS thread thành bottleneck](images/os-thread-bottleneck.png)
+
 ## Bước 1: Một request thường làm gì?
 
 Trong `FakeRequestSimulation`, mỗi request giả lập:

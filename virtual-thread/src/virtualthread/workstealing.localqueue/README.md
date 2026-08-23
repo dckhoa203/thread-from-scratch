@@ -11,6 +11,8 @@ Nếu hết việc, worker đi lấy bớt việc từ worker khác.
 
 Đây là work stealing.
 
+![Worker ưu tiên local deque; worker idle steal từ đầu deque khác](images/local-first-stealing.png)
+
 ## Vì Sao Cần Work Stealing?
 
 Ở `virtualthread.cooperative`, mọi task nằm trong một queue chung:
