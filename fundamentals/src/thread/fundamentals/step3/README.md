@@ -88,12 +88,23 @@ worker-1 stack frame                  worker-2 stack frame
 ┌────────────────────────┐            ┌────────────────────────┐
 │ localPrimitive = 2     │            │ localPrimitive = 1     │
 │ i = 1                  │            │ i = 0                  │
-│ localReference ────────┼─────┐  ┌───┼──── localReference     │
+│ localReference = 123 ──┼─────┐  ┌───┼── localReference = 123│
 └────────────────────────┘     │  │   └────────────────────────┘
                                 ▼  ▼
                       one shared ArrayList
                       ["created by main"]
 ```
+
+Đọc `123` như một ký hiệu cho reference value:
+
+```text
+SHARED_LIST trong static state = 123
+worker-1 localReference        = 123
+worker-2 localReference        = 123
+123 ──► cùng một ArrayList object trên heap
+```
+
+Hai ô local nằm ở hai stack frame riêng, nhưng chứa cùng reference value. Object không “sở hữu đúng một reference”: static field và nhiều biến local có thể cùng tham chiếu tới nó. `123` chỉ là cách vẽ cho dễ hiểu, không khẳng định Java reference là địa chỉ bộ nhớ cố định; JVM quản lý cách tìm object, kể cả khi garbage collector di chuyển object.
 
 Giá trị `localPrimitive` và `i` trong sơ đồ chỉ là một snapshot minh họa; chúng thay đổi trong vòng lặp. Mỗi lần method return, frame của `work()` kết thúc. Object list vẫn còn vì static field `SHARED_LIST` tiếp tục tham chiếu tới nó.
 
