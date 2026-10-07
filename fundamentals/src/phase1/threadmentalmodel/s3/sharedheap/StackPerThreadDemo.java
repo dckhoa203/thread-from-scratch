@@ -1,4 +1,4 @@
-package thread.fundamentals.step3;
+package phase1.threadmentalmodel.s3.sharedheap;
 
 import java.util.ArrayList;
 

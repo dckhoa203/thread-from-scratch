@@ -244,6 +244,6 @@ Với JDK 21:
 
 ```bash
 mkdir -p /tmp/fundamentals-step2
-javac -d /tmp/fundamentals-step2 fundamentals/src/thread/fundamentals/step2/*.java
-java -cp /tmp/fundamentals-step2 thread.fundamentals.step2.ThreadOwnershipLab
+javac -d /tmp/fundamentals-step2 fundamentals/src/phase1/threadmentalmodel/s2/threadlocalstack/*.java
+java -cp /tmp/fundamentals-step2 phase1.threadmentalmodel.s2.threadlocalstack.ThreadOwnershipLab
 ```

@@ -1,4 +1,4 @@
-package thread.fundamentals.step3;
+package phase1.threadmentalmodel.s3.sharedheap;
 
 public class LocalPrimitiveDemo {
 

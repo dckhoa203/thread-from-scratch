@@ -211,7 +211,7 @@ Với JDK 21:
 
 ```bash
 mkdir -p /tmp/fundamentals-step3
-javac -d /tmp/fundamentals-step3 fundamentals/src/thread/fundamentals/step3/*.java
-java -cp /tmp/fundamentals-step3 thread.fundamentals.step3.StackPerThreadDemo
-java -cp /tmp/fundamentals-step3 thread.fundamentals.step3.LocalReferenceDemo
+javac -d /tmp/fundamentals-step3 fundamentals/src/phase1/threadmentalmodel/s3/sharedheap/*.java
+java -cp /tmp/fundamentals-step3 phase1.threadmentalmodel.s3.sharedheap.StackPerThreadDemo
+java -cp /tmp/fundamentals-step3 phase1.threadmentalmodel.s3.sharedheap.LocalReferenceDemo
 ```

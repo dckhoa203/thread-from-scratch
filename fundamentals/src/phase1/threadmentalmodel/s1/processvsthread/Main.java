@@ -1,4 +1,4 @@
-package thread.fundamentals.step1;
+package phase1.threadmentalmodel.s1.processvsthread;
 
 public class Main {
     public static void main(String[] args) {

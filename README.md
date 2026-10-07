@@ -2,37 +2,56 @@
 
 Repo này đi từ mô hình thread ngây thơ tới các ý tưởng nằm sau virtual thread: worker, queue, cooperative yield, work stealing, và continuation.
 
-Nên đọc theo đúng thứ tự dưới đây. Mỗi package là một bước nhảy concept, không phải một implementation production.
+Nên đọc theo đúng thứ tự dưới đây. Ba bước đầu dựng mental model về process, thread, stack và shared heap; các package tiếp theo đi sâu vào scheduler và virtual thread. Mỗi package là một bước nhảy concept, không phải một implementation production.
 
 ## Lộ Trình Đọc
 
-1. [thread.overall](thread-overal/src/thread/overall/README.md)
+### Fundamentals — Thread Mental Model
+
+1. [Process vs Thread](fundamentals/src/phase1/threadmentalmodel/s1/processvsthread/README.md)
+
+   Phân biệt process với thread, quan sát `main` và tạo thêm worker thread.
+
+2. [Thread Local Stack](fundamentals/src/phase1/threadmentalmodel/s2/threadlocalstack/README.md)
+
+   Tìm hiểu execution context, call stack và trạng thái local của từng thread.
+
+3. [Shared Heap](fundamentals/src/phase1/threadmentalmodel/s3/sharedheap/README.md)
+
+   Phân biệt local reference với object trên heap mà nhiều thread có thể cùng truy cập.
+
+### Virtual Thread — Scheduler và Continuation
+
+4. [thread.overall](thread-overal/src/thread/overall/README.md)
 
    Tổng quan lịch sử vấn đề: OS thread đắt, thread pool có thể starvation, virtual thread sinh ra để xử lý nhiều blocking task hơn.
 
-2. [virtualthread.simple](virtual-thread/src/virtualthread/simple/README.md)
+5. [virtualthread.simple](virtual-thread/src/virtualthread/simple/README.md)
 
    Mô hình đầu tiên: nhiều task, một queue chung, một số worker platform thread lấy task ra chạy.
 
-3. [virtualthread.cooperative](virtual-thread/src/virtualthread/cooperative/README.md)
+6. [virtualthread.cooperative](virtual-thread/src/virtualthread/cooperative/README.md)
 
    Task biết chạy một đoạn, lưu state, yield/sleep, rồi được scheduler đưa lại queue để resume.
 
-4. [virtualthread.workstealing.localqueue](virtual-thread/src/virtualthread/workstealing.localqueue/README.md)
+7. [virtualthread.workstealing.localqueue](virtual-thread/src/virtualthread/workstealing.localqueue/README.md)
 
    Mỗi worker có deque riêng. Worker ưu tiên việc local; khi hết việc thì steal từ worker khác.
 
-5. [virtualthread.workstealing.submissionqueue](virtual-thread/src/virtualthread/workstealing/submissionqueue/README.md)
+8. [virtualthread.workstealing.submissionqueue](virtual-thread/src/virtualthread/workstealing/submissionqueue/README.md)
 
    Bổ sung hai đường vào scheduler: task từ bên ngoài đi qua `SubmissionQueue`; task do worker tạo ra đi vào local deque. Timer cũng quay lại bằng đường external này.
 
-6. [virtualthread.continuation](virtual-thread/src/virtualthread/continuation/README.md)
+9. [virtualthread.continuation](virtual-thread/src/virtualthread/continuation/README.md)
 
    Nâng cấp concept từ cooperative: task không chỉ tự return/yield theo convention, mà yield trở thành tín hiệu scheduler nhìn thấy để requeue/resume.
 
 ## Mạch Ý Tưởng
 
 ```text
+fundamentals
+  -> process, thread, stack và shared heap là gì?
+
 thread.overall
   -> vì sao cần virtual thread?
 

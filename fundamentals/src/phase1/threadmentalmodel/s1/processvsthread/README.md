@@ -113,15 +113,15 @@ Process ID và thread ID trong ví dụ chỉ minh họa; giá trị thực tế
 
 ### Chạy từ repository root
 
-Các class nằm trong package `thread.fundamentals.step1`, nên cần dùng fully qualified class name khi chạy. Với JDK 21:
+Các class nằm trong package `phase1.threadmentalmodel.s1.processvsthread`, nên cần dùng fully qualified class name khi chạy. Với JDK 21:
 
 ```bash
 mkdir -p /tmp/fundamentals-step1
-javac -d /tmp/fundamentals-step1 fundamentals/src/thread/fundamentals/step1/*.java
+javac -d /tmp/fundamentals-step1 fundamentals/src/phase1/threadmentalmodel/s1/processvsthread/*.java
 
-java -cp /tmp/fundamentals-step1 thread.fundamentals.step1.Main
-java -cp /tmp/fundamentals-step1 thread.fundamentals.step1.Step1
-java -cp /tmp/fundamentals-step1 thread.fundamentals.step1.ProcessVsThreadLab
+java -cp /tmp/fundamentals-step1 phase1.threadmentalmodel.s1.processvsthread.Main
+java -cp /tmp/fundamentals-step1 phase1.threadmentalmodel.s1.processvsthread.Step1
+java -cp /tmp/fundamentals-step1 phase1.threadmentalmodel.s1.processvsthread.ProcessVsThreadLab
 ```
 
 ## Ghi nhớ

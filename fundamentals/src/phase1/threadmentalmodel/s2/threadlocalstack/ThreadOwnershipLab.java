@@ -1,4 +1,4 @@
-package thread.fundamentals.step2;
+package phase1.threadmentalmodel.s2.threadlocalstack;
 
 public class ThreadOwnershipLab {
 
